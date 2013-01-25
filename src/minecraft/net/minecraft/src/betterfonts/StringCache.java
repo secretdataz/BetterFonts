@@ -19,17 +19,18 @@
 
 package net.minecraft.src.betterfonts;
 
-import net.minecraft.src.RenderEngine;
-import net.minecraft.src.Tessellator;
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import java.awt.font.GlyphVector;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.font.GlyphVector;
+import java.lang.ref.WeakReference;
 import java.text.Bidi;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.WeakHashMap;
+
+import net.minecraft.client.renderer.Tessellator;
+
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -379,9 +380,9 @@ public class StringCache
         /* Need to cache each font style combination; the digitGlyphsReady = false disabled the normal glyph substitution mechanism */
         digitGlyphsReady = false;
         digitGlyphs[Font.PLAIN] = cacheString("0123456789").glyphs;
-        digitGlyphs[Font.BOLD] = cacheString("§l0123456789").glyphs;
-        digitGlyphs[Font.ITALIC] = cacheString("§o0123456789").glyphs;
-        digitGlyphs[Font.BOLD | Font.ITALIC] = cacheString("§l§o0123456789").glyphs;
+        digitGlyphs[Font.BOLD] = cacheString("l0123456789").glyphs;
+        digitGlyphs[Font.ITALIC] = cacheString("o0123456789").glyphs;
+        digitGlyphs[Font.BOLD | Font.ITALIC] = cacheString("lo0123456789").glyphs;
         digitGlyphsReady = true;
     }
 
