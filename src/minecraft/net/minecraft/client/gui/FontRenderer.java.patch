@@ -1,0 +1,140 @@
+Generated using iSuzutsuki's Moe Moe Diff patcher
+--- a\src\minecraft\net\minecraft\client\gui\FontRenderer.java
++++ b\src\minecraft\net\minecraft\client\gui\FontRenderer.java
+@@ -11,6 +11,9 @@
+ import java.util.List;
+ import java.util.Random;
+ import javax.imageio.ImageIO;
++
++import me.isuzutsuki.betterfonts.betterfonts.ConfigParser;
++import me.isuzutsuki.betterfonts.betterfonts.StringCache;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.Tessellator;
+ import net.minecraft.client.renderer.texture.TextureManager;
+@@ -24,6 +27,12 @@
+ @SideOnly(Side.CLIENT)
+ public class FontRenderer implements ResourceManagerReloadListener
+ {
++	//BetterFonts start
++	public static boolean betterFontsEnabled = true;
++	public StringCache stringCache;
++	public boolean dropShadowEnabled = true;
++	//BetterFonts end
++	
+     private static final ResourceLocation[] field_111274_c = new ResourceLocation[256];
+ 
+     /** Array of width of all the characters in default.png */
+@@ -46,7 +55,7 @@
+     private final ResourceLocation field_111273_g;
+ 
+     /** The RenderEngine used to load and setup glyph textures. */
+-    private final TextureManager renderEngine;
++    private TextureManager renderEngine; //BetterFonts - remove final
+ 
+     /** Current X coordinate at which to draw the next character. */
+     private float posX;
+@@ -57,7 +66,7 @@
+     /**
+      * If true, strings should be rendered with Unicode fonts instead of the default.png font
+      */
+-    private boolean unicodeFlag;
++    public boolean unicodeFlag; //BeterFonts - made field public
+ 
+     /**
+      * If true, the Unicode Bidirectional Algorithm should be run before rendering any string.
+@@ -136,7 +145,25 @@
+ 
+             this.colorCode[i] = (k & 255) << 16 | (l & 255) << 8 | i1 & 255;
+         }
+-
++        System.out.println("Starting betterfonts");
++        // TODO : Hope it works
++        if(par2ResourceLocation.func_110623_a().equals("textures/font/ascii.png") && this.stringCache == null)
++        	 {
++        	 this.stringCache = new StringCache(this.colorCode);
++        	
++        	 /* Read optional config file to override the default font name/size */
++        	 ConfigParser config = new ConfigParser();
++        	 if(config.loadConfig("/config/BetterFonts.cfg"))
++        	 {
++        	 String fontName = config.getFontName("SansSerif");
++        	 int fontSize = config.getFontSize(18);
++        	 boolean antiAlias = config.getBoolean("font.antialias", false);
++        	 dropShadowEnabled = config.getBoolean("font.dropshadow", true);
++        	
++        	 this.stringCache.setDefaultFont(fontName, fontSize, antiAlias);
++        	 System.out.println("BetterFonts configuration loaded");
++        	 }
++        	 }
+         this.readGlyphSizes();
+     }
+ 
+@@ -339,7 +366,7 @@
+ 
+         int l;
+ 
+-        if (par5)
++        if (par5 && this.dropShadowEnabled)
+         {
+             l = this.renderString(par1Str, par2 + 1, par3 + 1, par4, true);
+             l = Math.max(l, this.renderString(par1Str, par2, par3, par4, false));
+@@ -357,6 +384,10 @@
+      */
+     private String bidiReorder(String par1Str)
+     {
++    	if (this.betterFontsEnabled && this.stringCache != null)
++    	{
++    		return par1Str;
++    	}
+         if (par1Str != null && Bidi.requiresBidi(par1Str.toCharArray(), 0, par1Str.length()))
+         {
+             Bidi bidi = new Bidi(par1Str, -2);
+@@ -645,7 +676,14 @@
+             GL11.glColor4f(this.red, this.blue, this.green, this.alpha);
+             this.posX = (float)par2;
+             this.posY = (float)par3;
+-            this.renderStringAtPos(par1Str, par5);
++            if (this.betterFontsEnabled && this.stringCache != null)
++            	{
++            	this.posX += stringCache.renderString(par1Str, par2, par3, par4, par5);
++            	}
++            	else
++            	{
++            	this.renderStringAtPos(par1Str, par5);
++            	}
+             return (int)this.posX;
+         }
+     }
+@@ -655,6 +693,10 @@
+      */
+     public int getStringWidth(String par1Str)
+     {
++    	if (this.betterFontsEnabled && this.stringCache != null)
++    	{
++    		return this.stringCache.getStringWidth(par1Str);
++    	}
+         if (par1Str == null)
+         {
+             return 0;
+@@ -756,6 +798,10 @@
+      */
+     public String trimStringToWidth(String par1Str, int par2, boolean par3)
+     {
++    	if (this.betterFontsEnabled && this.stringCache != null)
++    	{
++    		return this.stringCache.trimStringToWidth(par1Str, par2, par3);
++    	}
+         StringBuilder stringbuilder = new StringBuilder();
+         int j = 0;
+         int k = par3 ? par1Str.length() - 1 : 0;
+@@ -923,6 +969,10 @@
+      */
+     private int sizeStringToWidth(String par1Str, int par2)
+     {
++    	if (this.betterFontsEnabled && this.stringCache != null)
++    	{
++    		return this.stringCache.sizeStringToWidth(par1Str, par2);
++    	}
+         int j = par1Str.length();
+         int k = 0;
+         int l = 0;
