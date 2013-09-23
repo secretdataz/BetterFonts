@@ -1,4 +1,3 @@
-Generated using iSuzutsuki's Moe Moe Diff patcher
 --- a\src\minecraft\net\minecraft\client\gui\inventory\GuiEditSign.java
 +++ b\src\minecraft\net\minecraft\client\gui\inventory\GuiEditSign.java
 @@ -2,6 +2,7 @@
@@ -14,7 +13,7 @@ Generated using iSuzutsuki's Moe Moe Diff patcher
          }
  
 -        if (allowedCharacters.indexOf(par1) >= 0 && this.entitySign.signText[this.editLine].length() < 15)
-+        if((allowedCharacters.indexOf(par1) >= 0 || BTFThaiUtils.isThaiChar(par1)) && this.entitySign.signText[this.editLine].length() < 15)	
++        if ((allowedCharacters.indexOf(par1) >= 0 || BTFThaiUtils.isThaiChar(par1)) && this.entitySign.signText[this.editLine].length() < 15)
          {
              this.entitySign.signText[this.editLine] = this.entitySign.signText[this.editLine] + par1;
          }

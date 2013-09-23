@@ -10,7 +10,7 @@ public class BTFClassTransformer implements net.minecraft.launchwrapper.IClassTr
 
 	@Override
 	public byte[] transform(String arg0, String arg1, byte[] arg2) {
-		if (arg0.equals("avf") || arg0.equals("net.minecraft.client.gui.FontRenderer") || arg0.equals("axv") || arg0.equals("net.minecraft.client.gui.inventory.GuiEditSign")) {
+		if (arg0.equals("avi") || arg0.equals("net.minecraft.client.gui.FontRenderer") || arg0.equals("axy") || arg0.equals("net.minecraft.client.gui.inventory.GuiEditSign")) {
 			System.out.println("[BetterFonts] Transformer is about to patch : " + arg0);
 			arg2 = patchClassInJar(arg0, arg2, arg0, BetterFontsCore.location);
 		}
