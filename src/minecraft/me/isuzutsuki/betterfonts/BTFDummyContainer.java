@@ -20,7 +20,7 @@ public class BTFDummyContainer extends DummyModContainer{
 		ModMetadata meta = getMetadata();
 		meta.modId = "BetterFonts";
 		meta.name = "BetterFonts";
-		meta.version = "1.0.2"; //String.format("%d.%d.%d.%d", majorVersion, minorVersion, revisionVersion, buildVersion);
+		meta.version = "1.0.3"; //String.format("%d.%d.%d.%d", majorVersion, minorVersion, revisionVersion, buildVersion);
 		meta.credits = "thvortex for original codes";
 		meta.authorList = Arrays.asList("iSuzutsuki");
 		meta.description = "";

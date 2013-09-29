@@ -472,8 +472,8 @@ public class StringCache
 * Tessellator's vertex array must be drawn before switching textures, otherwise they would erroneously use the new
 * texture as well.
 */
-            //if(boundTextureName != texture.textureName)
-            if(true)
+            if(boundTextureName != texture.textureName)
+            //if(true)
             {
                 tessellator.draw();
                 tessellator.startDrawingQuads();

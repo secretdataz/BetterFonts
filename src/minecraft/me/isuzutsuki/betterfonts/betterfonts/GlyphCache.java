@@ -559,8 +559,8 @@ public class GlyphCache
 
         /* Allocate new OpenGL texure */
         singleIntBuffer.clear();
-        // TODO : Fix things
-        textureName = GLAllocation.generateDisplayLists(singleIntBuffer.get(0));
+        GL11.glGenTextures(singleIntBuffer); 
+		textureName = singleIntBuffer.get(0);
 
         /* Load imageBuffer with pixel data ready for transfer to OpenGL texture */
         updateImageBuffer(0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
