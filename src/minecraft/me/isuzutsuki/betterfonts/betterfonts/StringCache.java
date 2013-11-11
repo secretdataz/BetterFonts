@@ -361,9 +361,9 @@ public class StringCache
         /* Need to cache each font style combination; the digitGlyphsReady = false disabled the normal glyph substitution mechanism */
         digitGlyphsReady = false;
         digitGlyphs[Font.PLAIN] = cacheString("0123456789").glyphs;
-        digitGlyphs[Font.BOLD] = cacheString("l0123456789").glyphs;
-        digitGlyphs[Font.ITALIC] = cacheString("o0123456789").glyphs;
-        digitGlyphs[Font.BOLD | Font.ITALIC] = cacheString("lo0123456789").glyphs;
+        digitGlyphs[Font.BOLD] = cacheString("§l0123456789").glyphs;
+        digitGlyphs[Font.ITALIC] = cacheString("§o0123456789").glyphs;
+        digitGlyphs[Font.BOLD | Font.ITALIC] = cacheString("§l§o0123456789").glyphs;
         digitGlyphsReady = true;
     }
 
