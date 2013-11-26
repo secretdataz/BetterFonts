@@ -31,7 +31,8 @@ public class FontRenderer implements ResourceManagerReloadListener
   	public static boolean betterFontsEnabled = true;
   	public StringCache stringCache;
   	public boolean dropShadowEnabled = true;
-  	
+  	public boolean enabled = true;
+	
     private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
 
     /** Array of width of all the characters in default.png */
