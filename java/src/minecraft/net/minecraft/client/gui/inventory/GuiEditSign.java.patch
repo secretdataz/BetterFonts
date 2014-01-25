@@ -1,0 +1,19 @@
+--- a\src\minecraft\net\minecraft\client\gui\inventory\GuiEditSign.java
++++ b\src\minecraft\net\minecraft\client\gui\inventory\GuiEditSign.java
+@@ -2,6 +2,7 @@
+ 
+ import cpw.mods.fml.relauncher.Side;
+ import cpw.mods.fml.relauncher.SideOnly;
++import me.isuzutsuki.betterfonts.BTFThaiUtils;
+ import net.minecraft.block.Block;
+ import net.minecraft.client.gui.GuiButton;
+ import net.minecraft.client.gui.GuiScreen;
+@@ -111,7 +112,7 @@
+             this.entitySign.signText[this.editLine] = this.entitySign.signText[this.editLine].substring(0, this.entitySign.signText[this.editLine].length() - 1);
+         }
+ 
+-        if (allowedCharacters.indexOf(par1) >= 0 && this.entitySign.signText[this.editLine].length() < 15)
++        if ((allowedCharacters.indexOf(par1) >= 0 || BTFThaiUtils.isThaiChar(par1)) && this.entitySign.signText[this.editLine].length() < 15)
+         {
+             this.entitySign.signText[this.editLine] = this.entitySign.signText[this.editLine] + par1;
+         }
