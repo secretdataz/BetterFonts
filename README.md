@@ -47,7 +47,7 @@ Installation is the same as for any other Forge mod.
 Just place BetterFonts jar in "mods" folder in your Minecraft directory.
 
 ### Configuration: ###
-You can have a config file to change the default font and text size this mod uses. If your game is installed in a `.minecraft` directory, then the config file will be `.minecraft/config/BetterFonts.cfg` (the same place ModLoader keeps its config files). Please note that the `config` directory does **not go inside minecraft.jar** but directly into the game folder. You can either [download](http://dev.bukkit.org/media/files/587/923/BetterFonts_Config.zip) the config file or look at the example below:
+This mod has a config file to change the default font and text size this mod uses. If your game is installed in a `.minecraft` directory, then the config file will be `.minecraft/config/BetterFonts.cfg` (the same place ForgeModLoader keeps its config files). Please note that the `config` directory does **not go inside minecraft.jar** but directly into the game folder.
 
 ### License: ###
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
