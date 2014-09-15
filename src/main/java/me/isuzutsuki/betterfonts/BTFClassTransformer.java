@@ -26,10 +26,9 @@ public class BTFClassTransformer implements net.minecraft.launchwrapper.IClassTr
 
 
 			if (entry == null) {
-			System.out.println(name + " not found in " + location.getName());
+				System.out.println(name + " not found in " + location.getName());
 			} else {
-
-			//serialize the class file into the bytes array
+				//serialize the class file into the bytes array
 				InputStream zin = zip.getInputStream(entry);
 				int size = (int) entry.getSize();
 				byte[] newbytes = new byte[size];
@@ -42,13 +41,12 @@ public class BTFClassTransformer implements net.minecraft.launchwrapper.IClassTr
 				}
 				if(!newbytes.equals(bytes))bytes=newbytes;
 				zin.close();
-			System.out.println("[" + "BetterFonts" + "]: " + "Class " + name + " patched!");
+				System.out.println("[" + "BetterFonts" + "]: " + "Class " + name + " patched!");
 			}
 			zip.close();
 			} catch (Exception e) {
-			throw new RuntimeException("Error overriding " + name + " from " + location.getName(), e);
+				throw new RuntimeException("Error overriding " + name + " from " + location.getName(), e);
 			}
-
 			//return the new bytes
 			return bytes;
 	}
