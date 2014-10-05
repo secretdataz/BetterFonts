@@ -317,7 +317,6 @@ public class StringCache
 * A single StringCache object is allocated by Minecraft's FontRenderer which forwards all string drawing and requests for
 * string width to this class.
 *
-* @param renderEngine needed for allocating new OpenGL textures
 * @param colors 32 element array of RGBA colors corresponding to the 16 text color codes followed by 16 darker version of the
 * color codes for use as drop shadows
 */
@@ -341,10 +340,10 @@ public class StringCache
 * @param fontSize the new point size
 * @param antiAlias turn on anti aliasing
 */
-    public void setDefaultFont(String name, int size, boolean antiAlias)
+    public void setDefaultFont(String fontName, int fontSize, boolean antiAlias)
     {
         /* Change the font in the glyph cache and clear the string cache so all strings have to be re-layed out and re-rendered */
-        glyphCache.setDefaultFont(name, size, antiAlias);
+        glyphCache.setDefaultFont(fontName, fontSize, antiAlias);
         antiAliasEnabled = antiAlias;
         weakRefCache.clear();
         stringCache.clear();
@@ -374,9 +373,9 @@ public class StringCache
 * add the string to the cache so the next renderString() call with the same string is faster.
 *
 * @param str the string being rendered; it can contain color codes
-* @param x the x coordinate to draw at
-* @param y the y coordinate to draw at
-* @param color the initial RGBA color to use when drawing the string; embedded color codes can override the RGB component
+* @param startX the x coordinate to draw at
+* @param startY the y coordinate to draw at
+* @param initialColor the initial RGBA color to use when drawing the string; embedded color codes can override the RGB component
 * @param shadowFlag if true, color codes are replaces by a darker version used for drop shadows
 * @return the total advance (horizontal distance) of this string
 *
@@ -825,7 +824,7 @@ public class StringCache
 * color code and its position (relative to the new stripped text[]) is also recorded in a separate array. The color codes must
 * be removed for a font's context sensitive glyph substitution to work (like Arabic letter middle form).
 *
-* @param colorList each color change in the string will add a new ColorCode object to this list
+* @param cacheEntry each color change in the string will add a new ColorCode object to this list
 * @param str the string from which color codes will be stripped
 * @param text on input it should be an identical copy of str; on output it will be string with all color codes removed
 * @return the length of the new stripped string in text[]; actual text.length will not change because the array is not reallocated

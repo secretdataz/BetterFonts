@@ -185,8 +185,6 @@ public class GlyphCache
 
     /**
      * A single instance of GlyphCache is allocated for internal use by the StringCache class.
-     *
-     * @param renderEngine needed to allocate OpenGL textures
      */
     public GlyphCache()
     {
@@ -250,7 +248,7 @@ public class GlyphCache
      * @param text the string to check against the font
      * @param start the offset into text at which to start checking characters for being supported by a font
      * @param limit the (offset + length) at which to stop checking characters
-     * @param a combination of the Font.PLAIN, Font.BOLD, and Font.ITALIC to request a particular font style
+     * @param style combination of the Font.PLAIN, Font.BOLD, and Font.ITALIC to request a particular font style
      * @return an OpenType font capable of displaying at least the first character at the start position in text
      */
     Font lookupFont(char text[], int start, int limit, int style)
