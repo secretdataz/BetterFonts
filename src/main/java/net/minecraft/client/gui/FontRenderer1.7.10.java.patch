@@ -1,0 +1,154 @@
+# FontRenderer.java patch for Minecraft 1.7.10
+--- build/tmp/recompSrc/net/minecraft/client/gui/FontRenderer.java	Sat Jun 28 00:00:54 2014
++++ src/main/java/net/minecraft/client/gui/FontRenderer.java	Fri Oct 17 11:17:56 2014
+@@ -5,14 +5,6 @@
+ import com.ibm.icu.text.Bidi;
+ import cpw.mods.fml.relauncher.Side;
+ import cpw.mods.fml.relauncher.SideOnly;
+-import java.awt.image.BufferedImage;
+-import java.io.IOException;
+-import java.io.InputStream;
+-import java.util.Arrays;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Random;
+-import javax.imageio.ImageIO;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.Tessellator;
+ import net.minecraft.client.renderer.texture.TextureManager;
+@@ -22,9 +14,27 @@
+ import net.minecraft.util.ResourceLocation;
+ import org.lwjgl.opengl.GL11;
+ 
++import java.awt.image.BufferedImage;
++import java.io.IOException;
++import java.io.InputStream;
++import java.util.Arrays;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Random;
++import javax.imageio.ImageIO;
++
++import me.isuzutsuki.betterfonts.betterfonts.ConfigParser;
++import me.isuzutsuki.betterfonts.betterfonts.StringCache;
++
+ @SideOnly(Side.CLIENT)
+ public class FontRenderer implements IResourceManagerReloadListener
+ {
++    //BetterFonts start
++    public static boolean betterFontsEnabled = true;
++    public StringCache stringCache;
++    public boolean dropShadowEnabled = true;
++    public boolean enabled = true;
++    //BetterFonts end
+     private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
+     /** Array of width of all the characters in default.png */
+     private int[] charWidth = new int[256];
+@@ -119,7 +129,27 @@
+ 
+             this.colorCode[i] = (k & 255) << 16 | (l & 255) << 8 | i1 & 255;
+         }
+-
++    //BetterFonts start
++        System.out.println("[BetterFonts]Starting BetterFonts...");
++        if(p_i1035_2_.getResourcePath().equalsIgnoreCase("textures/font/ascii.png") && this.stringCache == null)
++        {
++   	 /* Read optional config file to override the default font name/size */
++            ConfigParser config = new ConfigParser();
++            int fontSize = 18;
++            boolean antiAlias = false;
++            String fontName = "SansSerif";
++            if(config.loadConfig("/config/BetterFonts.cfg"))
++            {
++                fontName = config.getFontName("SansSerif");
++                fontSize = config.getFontSize(18);
++                antiAlias = config.getBoolean("font.antialias", false);
++                dropShadowEnabled = config.getBoolean("font.dropshadow", true);
++                System.out.println("BetterFonts configuration loaded");
++            }
++            this.stringCache = new StringCache(this.colorCode);
++            this.stringCache.setDefaultFont(fontName, fontSize, antiAlias);
++        }
++        //BeterFonts end
+         this.readGlyphSizes();
+     }
+ 
+@@ -317,7 +347,7 @@
+         this.resetStyles();
+         int l;
+ 
+-        if (p_85187_5_)
++        if (p_85187_5_ && this.dropShadowEnabled) //BetterFonts - Add dropShadowEnabled check.
+         {
+             l = this.renderString(p_85187_1_, p_85187_2_ + 1, p_85187_3_ + 1, p_85187_4_, true);
+             l = Math.max(l, this.renderString(p_85187_1_, p_85187_2_, p_85187_3_, p_85187_4_, false));
+@@ -335,6 +365,12 @@
+      */
+     private String bidiReorder(String p_147647_1_)
+     {
++        //BetterFonts start
++        if (this.betterFontsEnabled && this.stringCache != null)
++        {
++            return p_147647_1_;
++        }
++        //BetterFonts end
+         try
+         {
+             Bidi bidi = new Bidi((new ArabicShaping(8)).shape(p_147647_1_), 127);
+@@ -563,7 +599,16 @@
+             GL11.glColor4f(this.red, this.blue, this.green, this.alpha);
+             this.posX = (float)p_78258_2_;
+             this.posY = (float)p_78258_3_;
+-            this.renderStringAtPos(p_78258_1_, p_78258_5_);
++            //BetterFonts start
++            if(this.betterFontsEnabled && this.stringCache != null)
++            {
++                this.posX += stringCache.renderString(p_78258_1_, p_78258_2_, p_78258_3_, p_78258_4_, p_78258_5_);
++            }
++            else
++            {
++                this.renderStringAtPos(p_78258_1_,p_78258_5_);
++            }
++            //BetterFonts end
+             return (int)this.posX;
+         }
+     }
+@@ -573,6 +618,12 @@
+      */
+     public int getStringWidth(String p_78256_1_)
+     {
++        //BetterFonts start
++        if (this.betterFontsEnabled && this.stringCache != null)
++        {
++            return this.stringCache.getStringWidth(p_78256_1_);
++        }
++        //BetterFonts end
+         if (p_78256_1_ == null)
+         {
+             return 0;
+@@ -674,6 +725,12 @@
+      */
+     public String trimStringToWidth(String p_78262_1_, int p_78262_2_, boolean p_78262_3_)
+     {
++        //BetterFonts start
++        if (this.betterFontsEnabled && this.stringCache != null)
++        {
++            return this.stringCache.trimStringToWidth(p_78262_1_, p_78262_2_, p_78262_3_);
++        }
++        //BetterFonts end
+         StringBuilder stringbuilder = new StringBuilder();
+         int j = 0;
+         int k = p_78262_3_ ? p_78262_1_.length() - 1 : 0;
+@@ -841,6 +898,12 @@
+      */
+     private int sizeStringToWidth(String p_78259_1_, int p_78259_2_)
+     {
++        //BetterFonts start
++        if (this.betterFontsEnabled && this.stringCache != null)
++        {
++            return this.stringCache.sizeStringToWidth(p_78259_1_, p_78259_2_);
++        }
++        //BetterFonts end
+         int j = p_78259_1_.length();
+         int k = 0;
+         int l = 0;
