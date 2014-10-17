@@ -42,23 +42,31 @@ Use gradlew or gradlew.bat instead if you don't have Gradle installed.
 ### If you have Gradle installed
 
     gradle setupDecompWorkspace
+    
+## 3. Copy FontRenderer source code from ForgeGradle temp directory
+
+    cp build/tmp/recompSrc/net/minecraft/client/gui/FontRenderer.java src/main/java/net/minecraft/client/gui/FontRenderer.java
 	
-## 3. Compile SRG version of BetterFonts
+## 4. Apply patch file to FontRenderer.java
+
+    patch src/main/java/net/minecraft/client/gui/FontRenderer.java < FontRenderer1.7.10.java.patch
+
+## 5. Compile SRG version of BetterFonts
 
     gradle build
 	
-## 4. Get compiled FontRenderer
+## 6. Get compiled FontRenderer
 
 At this point. You will have a compiled jar inside build/libs folder.
 Open it up and extract net/minecraft/client/gui/FontRenderer.class out.
 
-## 5. Non-SRG reobfuscate the FontRenderer
+## 7. Non-SRG reobfuscate the FontRenderer
 
 Open your MCP directory. Put your FontRenderer.class in bin/minecraft/net/minecraft/client/gui
 If it doesn't exist try recompiling the game in MCP once.
 After that, run reobfuscate.bat or reobfuscate.sh.
 
-## 6. Repack BetterFonts JAR
+## 8. Repack BetterFonts JAR
 
 Get your obfuscated class from reobf/minecraft folder. It may have weird name like bbu.class instead of its old name.
 Put it in your BetterFonts jar file from Gradle folder.
