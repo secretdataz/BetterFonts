@@ -1,0 +1,12 @@
+{
+    "id": "betterfonts",
+    "name": "BetterFonts",
+    "authors": [
+        "thvortex",
+        "Secretdataz",
+        "cubex2"
+    ],
+    "listeners": [
+        "app.jittapan.betterfonts.BetterFonts"
+    ]
+}
