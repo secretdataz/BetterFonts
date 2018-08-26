@@ -2,9 +2,6 @@
 
 The BetterFonts mod adds TrueType/OpenType font support for Minecraft. This mod will use the fonts installed on your system for drawing text instead of the builtin bitmap fonts that come with Minecraft. Languages such as Arabic and Hindi look much better with this mod since both require complex layout that the bitmap fonts simply can't provide. All in-game text will change to use the new fonts including GUIs, the F3 debug screen, chat, and even signs. This mod should have little or no impact on performance.
 
-### Forum & Downloads: ###
-Thread on the MinecraftForum has gone for no reason. sorry :(
-
 ### Screenshots: ###
 Click on any of the screenshots below to see a full-sized version of the image.
 
@@ -43,11 +40,11 @@ F3 Debug Screen
 </table>
 
 ### Installation: ###
-Installation is the same as for any other Forge mod.
-Just place BetterFonts jar in "mods" folder in your Minecraft directory.
+* BetterFonts for Minecraft 1.13 requires [Rift modloader](https://minecraft.curseforge.com/projects/rift) to function. Install it first.
+* Grab a [binary release](https://github.com/secretdataz/BetterFonts/releases) and place it inside your `<minecraft directory>/mods/` directory.
 
 ### Configuration: ###
-This mod has a config file to change the default font and text size this mod uses. If your game is installed in a `.minecraft` directory, then the config file will be `.minecraft/config/BetterFonts.cfg` (the same place ForgeModLoader keeps its config files). Please note that the `config` directory does **not go inside minecraft.jar** but directly into the game folder.
+This mod has a config file to change the default font and text size this mod uses. If your game is installed in a `.minecraft` directory, then the config file will be `.minecraft/config/BetterFonts.cfg`. Please note that the `config` directory does **not go inside minecraft.jar** but directly into the game folder.
 
 ### License: ###
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
@@ -55,3 +52,8 @@ This program is free software; you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; without even the implied warranty of MERCHANTABILITY or **FITNESS FOR A PARTICULAR PURPOSE**. See the GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <<http://www.gnu.org/licenses/>>.
+
+### Credits: ###
+* [thvortex](https://github.com/thvortex) The original creator.
+* [cubex2](https://github.com/cubex2) Maintainer (1.8-1.12)
+* [secretdataz](https://github.com/secretdataz) Maintainer (1.6-1.7)
