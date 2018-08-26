@@ -34,12 +34,12 @@ public abstract class MixinFontRenderer
     abstract String bidiReorder(String text);
 
     @Shadow
-    abstract float renderStringAtPos(String p_renderStringAtPos_1_, float p_renderStringAtPos_2_, float p_renderStringAtPos_3_, int p_renderStringAtPos_4_, boolean p_renderStringAtPos_5_);
+    abstract float renderStringAtPos(String string, float x, float y, int color, boolean shadowFlag);
 
     @Inject(method="<init>", at = @At("RETURN"))
     private void constructor(TextureManager textureManager, Font font, CallbackInfo ci) {
         IFont fnt = (IFont)font;
-        if(fnt.getType().equals("default") && this.stringRenderer == null) {
+        if(fnt.getType().equals("default") && stringRenderer == null) {
             logger.info("Initializing BetterFonts renderer.");
             ConfigParser config = new ConfigParser();
             int fontSize = 18;
@@ -96,34 +96,42 @@ public abstract class MixinFontRenderer
         }
     }
 
+    /**
+     * drawStringWithShadow
+     * @author secretdataz
+     */
     @Overwrite
-    public int drawStringWithShadow(String p_drawStringWithShadow_1_, float p_drawStringWithShadow_2_, float p_drawStringWithShadow_3_, int p_drawStringWithShadow_4_) {
+    public int drawStringWithShadow(String string, float x, float y, int color) {
         GlStateManager.enableAlpha();
-        return this.renderString(p_drawStringWithShadow_1_, p_drawStringWithShadow_2_, p_drawStringWithShadow_3_, p_drawStringWithShadow_4_, dropShadowEnabled);
+        return this.renderString(string, x, y, color, dropShadowEnabled);
     }
 
+    /**
+     * renderString mixin
+     * @author secretdataz
+     */
     @Overwrite
-    private int renderString(String p_renderString_1_, float p_renderString_2_, float p_renderString_3_, int p_renderString_4_, boolean p_renderString_5_) {
-        if (p_renderString_1_ == null) {
+    private int renderString(String string, float x, float y, int color, boolean shadowFlag) {
+        if (string == null) {
             return 0;
         } else {
             if (this.bidiFlag) {
-                p_renderString_1_ = this.bidiReorder(p_renderString_1_);
+                string = this.bidiReorder(string);
             }
 
-            if ((p_renderString_4_ & -67108864) == 0) {
-                p_renderString_4_ |= -16777216;
+            if ((color & -67108864) == 0) {
+                color |= -16777216;
             }
             if(stringRenderer != null) {
-                p_renderString_2_ = stringRenderer.renderString(p_renderString_1_, p_renderString_2_, p_renderString_3_, p_renderString_4_, p_renderString_5_);
+                x += stringRenderer.renderString(string, x, y, color, shadowFlag);
             } else {
-                if (p_renderString_5_) {
-                    this.renderStringAtPos(p_renderString_1_, p_renderString_2_, p_renderString_3_, p_renderString_4_, true);
+                if (shadowFlag) {
+                    this.renderStringAtPos(string, x, y, color, true);
                 }
 
-                p_renderString_2_ = this.renderStringAtPos(p_renderString_1_, p_renderString_2_, p_renderString_3_, p_renderString_4_, false);
+                x = this.renderStringAtPos(string, x, y, color, false);
             }
-            return (int)p_renderString_2_ + (p_renderString_5_ ? 1 : 0);
+            return (int)x + (shadowFlag ? 1 : 0);
         }
     }
 
