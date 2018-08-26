@@ -107,6 +107,15 @@ public abstract class MixinFontRenderer
     }
 
     /**
+     * Divide R G and B component of a color by 4 to make shadowed color.
+     * @param color Color
+     * @return Shadowed color
+     */
+    private static int makeShadowColor(int color) {
+        return color & 0xFF000000 | (((((color >> 16) & 0xFF) / 4) << 16) | ((((color >> 8) & 0xFF) / 4) << 8) | ((color & 0xFF) / 4));
+    }
+
+    /**
      * renderString mixin
      * @author secretdataz
      */
@@ -123,9 +132,15 @@ public abstract class MixinFontRenderer
                 color |= -16777216;
             }
             if(stringRenderer != null) {
-                x += stringRenderer.renderString(string, x, y, color, shadowFlag);
+                if(shadowFlag && dropShadowEnabled) {
+                    int offset = stringRenderer.renderString(string, x + 1.0F, y + 1.0F, makeShadowColor(color), true);
+                    offset = Math.max(offset, stringRenderer.renderString(string, x, y, color, false));
+                    x += offset;
+                } else {
+                    x += stringRenderer.renderString(string, x, y, color, shadowFlag);
+                }
             } else {
-                if (shadowFlag) {
+                if (shadowFlag && dropShadowEnabled) {
                     this.renderStringAtPos(string, x, y, color, true);
                 }
 
