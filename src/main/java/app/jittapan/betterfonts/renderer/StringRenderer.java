@@ -92,10 +92,10 @@ public class StringRenderer
 
         /* Color currently selected by color code; reapplied to Tessellator instance after glBindTexture() */
         int color = initialColor;
-        boolean blend = false;
+        boolean blend;
 
         try {
-            blend = GL11.glIsEnabled(3042);
+            blend = GL11.glIsEnabled(GL11.GL_BLEND);
         } catch(Exception e) {
             e.printStackTrace();
             return 0;
@@ -117,7 +117,7 @@ public class StringRenderer
          * array), however GuiEditSign of all things depends on having the current color set to white when it renders its
          * "Edit sign message:" text. Otherwise, the sign which is rendered underneath would look too dark.
          */
-        // GlStateManager.color((color >> 16 & 0xff) / 255F, (color >> 8 & 0xff) / 255F, (color & 0xff) / 255F);
+        GlStateManager.color((color >> 16 & 0xff) / 255F, (color >> 8 & 0xff) / 255F, (color & 0xff) / 255F);
 
         /*
          * Enable GL_BLEND in case the font is drawn anti-aliased because Minecraft itself only enables blending for chat text

@@ -2,8 +2,8 @@ package app.jittapan.betterfonts.renderer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -96,7 +96,7 @@ public class GlyphCache
     private IntBuffer imageBuffer = ByteBuffer.allocateDirect(4 * TEXTURE_WIDTH * TEXTURE_HEIGHT).order(ByteOrder.BIG_ENDIAN).asIntBuffer();
 
     /** A single integer direct buffer with native byte ordering used for returning values from glGenTextures(). */
-    private IntBuffer singleIntBuffer = GLAllocation.createDirectByteBuffer(1 << 2).asIntBuffer();
+    private IntBuffer singleIntBuffer = BufferUtils.createIntBuffer(1);
 
     /** List of all available physical fonts on the system. Used by lookupFont() to find alternate fonts. */
     private List<Font> allFonts = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts());
@@ -561,7 +561,7 @@ public class GlyphCache
         GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_ALPHA8, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0,
                 GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, imageBuffer);
 
-        /* Explicitely disable mipmap support becuase updateTexture() will only update the base level 0 */
+        /* Explicitly disable mipmap support because updateTexture() will only update the base level 0 */
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
     }
