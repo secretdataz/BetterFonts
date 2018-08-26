@@ -96,9 +96,9 @@ public class StringRenderer
         }
 
         if(!blend) {
-            int curAlphaTestFunc = GL11.glGetInteger(3009);
-            if(curAlphaTestFunc == 516) {
-                float curAlphaTestRef = GL11.glGetFloat(3010);
+            int curAlphaTestFunc = GL11.glGetInteger(GL11.GL_ALPHA_TEST_FUNC);
+            if(curAlphaTestFunc == GL11.GL_GREATER) {
+                float curAlphaTestRef = GL11.glGetFloat(GL11.GL_ALPHA_TEST_REF);
                 int alphaTestBoundary = (int)(curAlphaTestRef * 255.0F);
                 if (color >> 24 > alphaTestBoundary) {
                     color = 0xFF000000 | color;
